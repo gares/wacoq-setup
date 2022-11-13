@@ -21,5 +21,8 @@ export WASI_SDK_PATH=$PWD/wasi-sdk-$WASI
 [ -d wacoq-bin ] || (git clone git@github.com:gares/wacoq-bin.git -b v8.15 --recursive && cd wacoq-bin && npm install && make bootstrap && make coq)
 [ -f wacoq-bin/wacoq-bin-0.15.1.tar.gz ] || (cd wacoq-bin && make wacoq && make dist-npm && make install)
 
-[ -d addons ] || (git clone git@github.com:gares/addons.git --recursive && cd addons && npm install && npm install ../wacoq-bin/wacoq-bin-0.15.1.tar.gz)
-(cd addons && make world)
+[ -d addons ] || (git clone git@github.com:gares/addons.git --recursive && cd addons && npm install jquery jszip ../wacoq-bin/wacoq-bin-0.15.1.tar.gz)
+[ -f addons/_build/wacoq/jscoq-mathcomp-0.16.0.tgz ] || (cd addons && make world && make pack)
+
+[ -d jscoq ] || (git clone git@github.com:gares/jscoq.git --recursive -b v8.15 && cd jscoq && npm install ../wacoq-bin/wacoq-bin-0.15.1.tar.gz ../addons/_build/wacoq/*tgz)
+(cd jscoq && make wacoq && make dist-npm-wacoq)
