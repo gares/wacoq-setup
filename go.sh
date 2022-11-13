@@ -7,7 +7,7 @@ export OPAMROOT=$PWD/opam
 eval $(opam env --switch=wacoq --set-switch)
 
 # Node 18 does not work
-NODE=v10.16.3
+NODE=v16.15.0
 [ -f node-$NODE-linux-x64.tar.xz ] || wget https://nodejs.org/dist/$NODE/node-$NODE-linux-x64.tar.xz
 tar -xJf node-$NODE-linux-x64.tar.xz
 export PATH=$PWD/node-$NODE-linux-x64/bin:$PATH
@@ -19,11 +19,7 @@ tar -xzf wasi-sdk-$WASI-linux.tar.gz
 export WASI_SDK_PATH=$PWD/wasi-sdk-$WASI
 
 [ -d wacoq-bin ] || (git clone git@github.com:gares/wacoq-bin.git -b v8.15 --recursive && cd wacoq-bin && npm install && make bootstrap && make coq)
-(cd wacoq-bin && make wacoq && make dist-npm && make install)
+[ -f wacoq-bin/wacoq-bin-0.15.1.tar.gz ] || (cd wacoq-bin && make wacoq && make dist-npm && make install)
 
-
-# git clone git@github.com:gares/addon-elpi.git
-# git clone git@github.com:gares/addon-mathcomp.git
-# git clone git@github.com:gares/addons.git
-# 
-# opam switch delete
+[ -d addons ] || (git clone git@github.com:gares/addons.git --recursive && cd addons && npm install && npm install ../wacoq-bin/wacoq-bin-0.15.1.tar.gz)
+(cd addons && make world)
