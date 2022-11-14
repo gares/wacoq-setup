@@ -33,19 +33,19 @@ $CLEAN || (cd wacoq-bin && make wacoq && make dist-npm)
 $CLEAN || (cd wacoq-bin && make install)
 
 # Wacoq libs
-# [ -d addons ] || CLEAN=false
-# $CLEAN || (rm -rf addons; git clone git@github.com:gares/addons.git --recursive && cd addons && npm install jquery jszip ../wacoq-bin/wacoq-bin-0.15.1.tar.gz)
-# 
-# [ -f addons/_build/wacoq/wacoq-elpi-0.15.0.tgz ] || CLEAN=false
-# $CLEAN || (cd addons && make elpi)
-# 
-# [ -f addons/_build/wacoq/wacoq-hierarchy-builder-0.15.0.tgz ] || CLEAN=false
-# $CLEAN || (cd addons && make hierarchy-builder)
-# 
-# [ -f addons/_build/wacoq/wacoq-mathcomp-0.15.0.tgz ] || CLEAN=false
-# $CLEAN || (cd addons && make mathcomp)
-# 
-# $CLEAN || (cd addons && make pack)
+[ -d addons ] || CLEAN=false
+$CLEAN || (rm -rf addons; git clone git@github.com:gares/addons.git --recursive && cd addons && npm install jquery jszip ../wacoq-bin/wacoq-bin-0.15.1.tar.gz)
+
+[ -f addons/_build/wacoq/wacoq-elpi-0.15.0.tgz ] || CLEAN=false
+$CLEAN || (cd addons && make elpi)
+
+[ -f addons/_build/wacoq/wacoq-hierarchy-builder-0.15.0.tgz ] || CLEAN=false
+$CLEAN || (cd addons && make hierarchy-builder)
+
+[ -f addons/_build/wacoq/wacoq-mathcomp-0.15.0.tgz ] || CLEAN=false
+$CLEAN || (cd addons && make mathcomp)
+
+$CLEAN || (cd addons && make pack)
 
 # Wacoq frontend
 [ -d jscoq ] || CLEAN=false
@@ -62,7 +62,16 @@ npm install ../jscoq/wacoq-0.15.1.tgz
 npm install ../addons/_build/wacoq/wacoq-elpi-0.15.0.tgz
 npm install ../addons/_build/wacoq/wacoq-hierarchy-builder-0.15.0.tgz
 npm install ../addons/_build/wacoq/wacoq-mathcomp-0.15.0.tgz
-python3 -m http.server
+
+tar -cvzf ../deploy.tgz .
+cd ..
+scp deploy.tgz roquableu.inria.fr:/net/serveurs/www-sop/teams/marelle/MC-2022/
+ssh roquableu.inria.fr <<EOT
+cd /net/serveurs/www-sop/teams/marelle/MC-2022/
+tar -xzf deploy.tgz
+EOT
+
+#python3 -m http.server
 
 
 # & google-chrome --allow-file-access-from-files --js-flags="--harmony-tailcalls" --js-flags="--stack-size=65536" ./index.html
