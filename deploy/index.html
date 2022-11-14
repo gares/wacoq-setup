@@ -4,7 +4,7 @@
     <meta http-equiv="content-type" content="text/html;charset=utf-8" />
     <title>jsCoq NPM package</title>
 
-    <script src="./ui-js/jscoq-loader.js"></script>
+    <script src="./node_modules/wacoq/ui-js/jscoq-loader.js"></script>
   </head>
 
 <body class="jscoq-main">
@@ -37,10 +37,7 @@
         editor:        { mode: { 'company-coq': true } },
         init_pkgs:     ['init'],
         all_pkgs:     {
-          '+': ['coq'],
-          'node_modules/@wacoq/hierarchy-builder/coq-pkgs': ['hierarchy-builder'],
-          'node_modules/@wacoq/elpi/coq-pkgs': ['elpi'],
-          'node_modules/@wacoq/mathcomp/coq-pkgs': ['mathcomp']
+          '+': ['coq', 'elpi', 'hierarchy-builder', 'mathcomp' ]
         }
     };
 
