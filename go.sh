@@ -25,4 +25,7 @@ export WASI_SDK_PATH=$PWD/wasi-sdk-$WASI
 [ -f addons/_build/wacoq/jscoq-mathcomp-0.16.0.tgz ] || (cd addons && make world && make pack)
 
 [ -d jscoq ] || (git clone git@github.com:gares/jscoq.git --recursive -b v8.15 && cd jscoq && npm install ../wacoq-bin/wacoq-bin-0.15.1.tar.gz ../addons/_build/wacoq/*tgz)
-(cd jscoq && make wacoq && make dist-npm-wacoq)
+[ -f wacoq-0.15.1.tgz ] || (cd jscoq && make wacoq && make dist-npm-wacoq)
+
+cd deploy
+npm install ../jscoq/wacoq-0.15.1.tgz ../addons/_build/wacoq/*tgz
