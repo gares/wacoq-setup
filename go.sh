@@ -45,6 +45,9 @@ $CLEAN || (cd addons && make hierarchy-builder)
 [ -f addons/_build/wacoq/wacoq-mathcomp-0.15.0.tgz ] || CLEAN=false
 $CLEAN || (cd addons && make mathcomp)
 
+[ -f addons/_build/wacoq/wacoq-mczify-0.15.0.tgz ] || CLEAN=false
+$CLEAN || (cd addons && make mczify)
+
 [ -f addons/_build/wacoq/wacoq-algebra-tactics-0.15.0.tgz ] || CLEAN=false
 $CLEAN || (cd addons && make algebra-tactics)
 
@@ -65,6 +68,7 @@ npm install ../jscoq/wacoq-0.15.1.tgz
 npm install ../addons/_build/wacoq/wacoq-elpi-0.15.0.tgz
 npm install ../addons/_build/wacoq/wacoq-hierarchy-builder-0.15.0.tgz
 npm install ../addons/_build/wacoq/wacoq-mathcomp-0.15.0.tgz
+npm install ../addons/_build/wacoq/wacoq-mczify-0.15.0.tgz
 npm install ../addons/_build/wacoq/wacoq-algebra-tactics-0.15.0.tgz
 
 tar -cvzf ../deploy.tgz .
