@@ -1,0 +1,15 @@
+{
+    "rootdir": "workdir",
+    "builddir": "coq-pkgs",
+    "projects": {
+        "elpi": {
+            "src": {
+                "prefix": "elpi"
+            },
+            "theories": {
+                "prefix": "elpi",
+                "dirpaths": [{"logical": "", "rec": false}]
+            }
+        }
+    }
+}

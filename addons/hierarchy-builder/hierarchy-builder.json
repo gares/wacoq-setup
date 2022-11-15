@@ -1,0 +1,12 @@
+{
+    "rootdir": "workdir",
+    "builddir": "coq-pkgs",
+    "projects": {
+            "hierarchy-builder": {
+                ".": {
+                    "prefix": "HB",
+                    "dirpaths": [{"logical": "", "rec": false}]
+            }
+    }
+}
+}

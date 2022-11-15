@@ -1,0 +1,11 @@
+{
+    "rootdir": "workdir/mathcomp",
+    "builddir": "coq-pkgs",
+    "projects": {
+        "mathcomp": {
+            "": {
+                "prefix": "mathcomp"
+            }
+        }
+    }
+}
