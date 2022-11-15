@@ -10,14 +10,14 @@ eval $(opam env --switch=wacoq --set-switch)
 # Node 18 does not work
 NODE=v16.15.0
 [ -f node-$NODE-linux-x64.tar.xz ] || wget https://nodejs.org/dist/$NODE/node-$NODE-linux-x64.tar.xz
-tar -xJf node-$NODE-linux-x64.tar.xz
+[ -d node-$NODE-linux-x64 ] || tar -xJf node-$NODE-linux-x64.tar.xz
 export PATH=$PWD/node-$NODE-linux-x64/bin:$PATH
 which node
 
 # Wasi 12 is the one tested for wacoq 8.15
 WASI=12.0
 [ -f wasi-sdk-$WASI-linux.tar.gz ] || wget https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-12/wasi-sdk-$WASI-linux.tar.gz
-tar -xzf wasi-sdk-$WASI-linux.tar.gz
+[ -d wasi-sdk-$WASI ] || tar -xzf wasi-sdk-$WASI-linux.tar.gz
 export WASI_SDK_PATH=$PWD/wasi-sdk-$WASI
 
 CLEAN=true

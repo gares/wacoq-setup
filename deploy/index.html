@@ -26,11 +26,10 @@ HB.about Equality.type.
 
 From mathcomp Require Import all_algebra ring.
 Import GRing.Theory.
-Local Open Scope ring_scope.
+Open Scope ring_scope.
 Section AbstractCommutativeRing.
 Variables (R : comRingType) (a b c : R).
-Goal (a + b + c) ^+ 2 =
-     a * a + b ^+ 2 + c * c + 2%:R * a * b + 2%:R * a * c + 2%:R * b * c.
+Goal a + b + c = a + c + b.
 Proof. ring. Qed.
 End AbstractCommutativeRing.
 </textarea>
