@@ -18,10 +18,21 @@
             and start editing.
         </p>
         <textarea class="coq-code">
-          From elpi Require Import elpi.
-          From HB Require Import structures.
-          From mathcomp Require Import all_ssreflect.
-          HB.about Equality.type.
+From elpi Require Import elpi.
+From HB Require Import structures.
+
+From mathcomp Require Import all_ssreflect.
+HB.about Equality.type.
+
+From mathcomp Require Import all_algebra ring.
+Import GRing.Theory.
+Local Open Scope ring_scope.
+Section AbstractCommutativeRing.
+Variables (R : comRingType) (a b c : R).
+Goal (a + b + c) ^+ 2 =
+     a * a + b ^+ 2 + c * c + 2%:R * a * b + 2%:R * a * c + 2%:R * b * c.
+Proof. ring. Qed.
+End AbstractCommutativeRing.
 </textarea>
       </div>
     </div>
@@ -36,9 +47,9 @@
         implicit_libs: true,
         backend: 'wa',
         editor:        { mode: { 'company-coq': true } },
-        init_pkgs:     ['init', 'coq', 'elpi', 'hierarchy-builder', 'mathcomp'],
+        init_pkgs:     ['init', 'coq', 'elpi', 'hierarchy-builder', 'mathcomp', 'algebra-tactics'],
         all_pkgs:     {
-          '+': ['coq', 'elpi', 'hierarchy-builder', 'mathcomp' ]
+          '+': ['coq', 'elpi', 'hierarchy-builder', 'mathcomp', 'algebra-tactics' ]
         }
     };
 
