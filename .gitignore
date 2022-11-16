@@ -2,3 +2,4 @@ wasi-sdk-*
 node-*
 deploy.tgz
 */node_modules
+opam/
