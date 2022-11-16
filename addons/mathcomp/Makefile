@@ -26,8 +26,8 @@ get: $(WORKDIR)
 
 $(WORKDIR):
 	$(GIT_CLONE)
-	( cd $(WORKDIR) && git apply ../mathcomp-fast-load.patch )
-	sed -i.bak 's?solvable/burnside_app.v??' $(WORKDIR)/mathcomp/Make
+	#( cd $(WORKDIR) && git apply ../mathcomp-fast-load.patch )
+	#sed -i.bak 's?solvable/burnside_app.v??' $(WORKDIR)/mathcomp/Make
 
 
 install:

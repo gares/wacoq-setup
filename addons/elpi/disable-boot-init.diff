@@ -14,14 +14,3 @@ index ca65350..f136c0a 100644
          |> ((@) [".";".."]) (* Hem, this sucks *)
 diff --git a/theories/elpi.v b/theories/elpi.v
 index cf6f7da..387d375 100644
---- a/theories/elpi.v
-+++ b/theories/elpi.v
-@@ -43,8 +43,3 @@ From Coq Require Bool.
- Register Coq.Bool.Bool.reflect  as elpi.reflect.
- Register Coq.Bool.Bool.ReflectF as elpi.ReflectF.
- Register Coq.Bool.Bool.ReflectT as elpi.ReflectT.
--
--From Coq Require PrimFloat PrimInt63.
--
--Register Coq.Floats.PrimFloat.float as elpi.float64.
--Register Coq.Numbers.Cyclic.Int63.PrimInt63.int as elpi.uint63.

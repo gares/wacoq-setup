@@ -21,6 +21,8 @@ prepare: $(WORKDIR)
 	sed -i.bak '/"coq"/d' workdir/coq-elpi.opam  # don't install Coq
 	unset DUNE_WORKSPACE && opam install -y --deps-only $(WORKDIR)/
 	# node adjust_paths.js
+	# linked by wacoq itself
+	echo 'CAMLPKGS+=-dontlink result,ppx_deriving.runtime' >> $(WORKDIR)/Makefile.coq.local
 
 get: $(WORKDIR)
 

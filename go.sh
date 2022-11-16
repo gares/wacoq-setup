@@ -48,7 +48,8 @@ $CLEAN || (cd wacoq-bin && make wacoq && make dist-npm)
 $CLEAN || (cd wacoq-bin && make install)
 
 # Wacoq libs / addons, also installed in opam/
-(cd addons ; rm -rf node_modules ; npm install jquery jszip ../wacoq-bin/wacoq-bin-0.15.1.tar.gz)
+$CLEAN || (cd addons ; rm -rf node_modules)
+(cd addons; npm install jquery jszip ../wacoq-bin/wacoq-bin-0.15.1.tar.gz)
 
 [ -f addons/_build/wacoq/wacoq-elpi-0.15.0.tgz ] || CLEAN=false
 $CLEAN || (cd addons && make elpi)
