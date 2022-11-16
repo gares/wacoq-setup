@@ -85,19 +85,7 @@ npm install ../addons/_build/wacoq/wacoq-mathcomp-0.15.0.tgz
 npm install ../addons/_build/wacoq/wacoq-mczify-0.15.0.tgz
 npm install ../addons/_build/wacoq/wacoq-algebra-tactics-0.15.0.tgz
 
-#exit 1
-
-rm ../deploy.tgz ; tar -cvzf ../deploy.tgz .
-cd ..
-ssh roquableu.inria.fr <<EOT
-cd /net/serveurs/www-sop/teams/marelle/MC-2022/
-rm -rf *
-EOT
-scp deploy.tgz roquableu.inria.fr:/net/serveurs/www-sop/teams/marelle/MC-2022/
-ssh roquableu.inria.fr <<EOT
-cd /net/serveurs/www-sop/teams/marelle/MC-2022/
-tar -xzf deploy.tgz
-EOT
+rm -f ../deploy.tgz ; tar -cvzf ../deploy.tgz .
 
 #python3 -m http.server
 
