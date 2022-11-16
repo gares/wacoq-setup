@@ -2,11 +2,17 @@
 set -e
 set -x
 
+####################################################################
+# opam
+#
 # ocaml-wasm wants 4.12
 export OPAMROOT=$PWD/opam
 [ -d opam ] || (opam init --bare -y && opam switch create wacoq --packages ocaml-variants.4.12.0+options,ocaml-option-32bit -y)
 eval $(opam env --switch=wacoq --set-switch)
 
+###################################################################
+# node
+#
 # Node 18 does not work
 NODE=v16.15.0
 [ -f node-$NODE-linux-x64.tar.xz ] || wget https://nodejs.org/dist/$NODE/node-$NODE-linux-x64.tar.xz
@@ -14,15 +20,24 @@ NODE=v16.15.0
 export PATH=$PWD/node-$NODE-linux-x64/bin:$PATH
 which node
 
+##################################################################
+# wasm SDK
+#
 # Wasi 12 is the one tested for wacoq 8.15
 WASI=12.0
 [ -f wasi-sdk-$WASI-linux.tar.gz ] || wget https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-12/wasi-sdk-$WASI-linux.tar.gz
 [ -d wasi-sdk-$WASI ] || tar -xzf wasi-sdk-$WASI-linux.tar.gz
 export WASI_SDK_PATH=$PWD/wasi-sdk-$WASI
 
+##################################################################
+# Coq
+
 CLEAN=true
 
-# Wacoq backend (includes coq)
+# Wacoq backend, also installs coq in opam/
+#
+# hack, the URL of the website is hardcoded in wacoq-bin/src/backend/core.ts,
+# replace it with file:/// to test locally (and rebuild)
 [ -d wacoq-bin ] || CLEAN=false
 $CLEAN || (rm -rf wacoq-bin ; git clone git@github.com:gares/wacoq-bin.git -b v8.15 --recursive && cd wacoq-bin && npm install && make bootstrap && make coq)
 
@@ -32,9 +47,8 @@ $CLEAN || (cd wacoq-bin && make wacoq && make dist-npm)
 [ -f $OPAMROOT/wacoq/bin/coqc ] || CLEAN=false
 $CLEAN || (cd wacoq-bin && make install)
 
-# Wacoq libs
-[ -d addons ] || CLEAN=false
-$CLEAN || (rm -rf addons; git clone git@github.com:gares/addons.git --recursive && cd addons && npm install jquery jszip ../wacoq-bin/wacoq-bin-0.15.1.tar.gz)
+# Wacoq libs / addons, also installed in opam/
+(cd addons ; rm -rf node_modules ; npm install jquery jszip ../wacoq-bin/wacoq-bin-0.15.1.tar.gz)
 
 [ -f addons/_build/wacoq/wacoq-elpi-0.15.0.tgz ] || CLEAN=false
 $CLEAN || (cd addons && make elpi)
@@ -60,7 +74,7 @@ $CLEAN || (rm -rf jscoq; git clone git@github.com:gares/jscoq.git --recursive -b
 [ -f jscoq/wacoq-0.15.1.tgz ] || CLEAN=false
 $CLEAN || (cd jscoq && make wacoq && make dist-npm-wacoq)
 
-# Local deploy
+# Archive to be deployed
 cd deploy
 rm -rf node_modules
 npm install ../wacoq-bin/wacoq-bin-0.15.1.tar.gz
@@ -71,8 +85,14 @@ npm install ../addons/_build/wacoq/wacoq-mathcomp-0.15.0.tgz
 npm install ../addons/_build/wacoq/wacoq-mczify-0.15.0.tgz
 npm install ../addons/_build/wacoq/wacoq-algebra-tactics-0.15.0.tgz
 
-tar -cvzf ../deploy.tgz .
+#exit 1
+
+rm ../deploy.tgz ; tar -cvzf ../deploy.tgz .
 cd ..
+ssh roquableu.inria.fr <<EOT
+cd /net/serveurs/www-sop/teams/marelle/MC-2022/
+rm -rf *
+EOT
 scp deploy.tgz roquableu.inria.fr:/net/serveurs/www-sop/teams/marelle/MC-2022/
 ssh roquableu.inria.fr <<EOT
 cd /net/serveurs/www-sop/teams/marelle/MC-2022/

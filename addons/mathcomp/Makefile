@@ -16,14 +16,20 @@ GIT_CLONE = ${if $(COMMIT), $(GIT_CLONE_COMMIT), git clone --recursive --depth=1
 .PHONY: all get
 
 all: $(WORKDIR)
-	cp -r dune-files/* $(WORKDIR)/
-	dune build
+	# cp -r dune-files/* $(WORKDIR)/
+	# dune build
+	make -C $(WORKDIR)/mathcomp -j4
+	rm -rf ../_build/$(CONTEXT)/mathcomp/ && cp -r . ../_build/$(CONTEXT)/mathcomp/
+	(cd ../_build/$(CONTEXT)/mathcomp; npx wacoq build --workspace jscoq-mathcomp.json)
 
 get: $(WORKDIR)
 
 $(WORKDIR):
 	$(GIT_CLONE)
 	( cd $(WORKDIR) && git apply ../mathcomp-fast-load.patch )
+	sed -i.bak 's?solvable/burnside_app.v??' $(WORKDIR)/mathcomp/Make
+
 
 install:
-	dune install ${addprefix coq-mathcomp-, ssreflect fingroup algebra solvable field character}
+	make -C $(WORKDIR)/mathcomp install
+	# dune install ${addprefix coq-mathcomp-, ssreflect fingroup algebra solvable field character}

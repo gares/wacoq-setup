@@ -7,7 +7,7 @@ WORKDIR = workdir
 all: $(WORKDIR) prepare
 	make -C $(WORKDIR) build
 	rm -rf ../_build/$(CONTEXT)/hierarchy-builder/ && cp -r . ../_build/$(CONTEXT)/hierarchy-builder/
-	(cd ../_build/$(CONTEXT)/hierarchy-builder; npx jscoq build --workspace hierarchy-builder.json)
+	(cd ../_build/$(CONTEXT)/hierarchy-builder; npx wacoq build --workspace hierarchy-builder.json)
 
 prepare: $(WORKDIR)
 
