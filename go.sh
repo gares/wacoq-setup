@@ -85,7 +85,7 @@ npm install ../addons/_build/wacoq/wacoq-mathcomp-0.15.0.tgz
 npm install ../addons/_build/wacoq/wacoq-mczify-0.15.0.tgz
 npm install ../addons/_build/wacoq/wacoq-algebra-tactics-0.15.0.tgz
 
-rm -f ../deploy.tgz ; tar -cvzf ../deploy.tgz .
+rm -f ../deploy.tgz ; tar -czf ../deploy.tgz .
 
 #python3 -m http.server
 
