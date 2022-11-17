@@ -18,8 +18,6 @@ all: $(WORKDIR) prepare
 	npx wacoq build --workspace hierarchy-builder.json
 	echo "$$PKG" > package.json
 	npm pack ./
-	# rm -rf ../_build/$(CONTEXT)/hierarchy-builder/ && cp -r . ../_build/$(CONTEXT)/hierarchy-builder/
-	# (cd ../_build/$(CONTEXT)/hierarchy-builder; npx wacoq build --workspace hierarchy-builder.json)
 
 prepare: $(WORKDIR)
 

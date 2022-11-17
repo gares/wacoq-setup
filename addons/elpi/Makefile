@@ -15,25 +15,16 @@ export PKG
 .PHONY: all get prepare
 
 all: $(WORKDIR) prepare 
-	# cp -r dune-files/* $(WORKDIR)/
-	# must build plugin first
-	# dune build $(WORKDIR)/src && dune build
 	make -C $(WORKDIR) build APPS=
 	npx wacoq build --workspace elpi.json
 	echo "$$PKG" > package.json
 	npm pack ./
-	# rm -rf ../_build/$(CONTEXT)/elpi/
-	# mkdir -p ../_build/$(CONTEXT)/elpi/
-	# cp -r . ../_build/$(CONTEXT)/elpi/
-	# cd ../_build/$(CONTEXT)/elpi; npx wacoq build --workspace elpi.json
 
 
 prepare: $(WORKDIR)
 	@echo '- Installing dependencies -'
 	sed -i.bak '/"coq"/d' workdir/coq-elpi.opam  # don't install Coq
 	unset DUNE_WORKSPACE && opam install -y --deps-only $(WORKDIR)/
-	# node adjust_paths.js
-	# linked by wacoq itself
 	echo 'CAMLPKGS+=-dontlink result,ppx_deriving.runtime' >> $(WORKDIR)/Makefile.coq.local
 
 get: $(WORKDIR)

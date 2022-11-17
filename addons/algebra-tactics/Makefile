@@ -18,8 +18,6 @@ all: $(WORKDIR) prepare
 	npx wacoq build --workspace algebra-tactics.json
 	echo "$$PKG" > package.json
 	npm pack ./	
-	# rm -rf ../_build/$(CONTEXT)/algebra-tactics/ && cp -r . ../_build/$(CONTEXT)/algebra-tactics/
-	# (cd ../_build/$(CONTEXT)/algebra-tactics; npx jscoq build --workspace algebra-tactics.json)
 
 prepare: $(WORKDIR)
 
