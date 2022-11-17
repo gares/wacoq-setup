@@ -2,6 +2,9 @@
 set -e
 #set -x
 
+V=$1
+shift
+
 ####################################################################
 # opam
 #
@@ -86,7 +89,7 @@ npm install ../wacoq-bin/wacoq-bin-0.15.1.tar.gz
 npm install ../jscoq/wacoq-0.15.1.tgz
 npm install ../addons/*/wacoq-*.tgz
 
-rm -f ../deploy.tgz ; tar -czf ../deploy.tgz .
+rm -f ../deploy-$V.tgz ; tar -czf ../deploy-$V.tgz .
 
 #python3 -m http.server
 
