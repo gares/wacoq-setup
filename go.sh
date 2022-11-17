@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e
-set -x
+#set -x
 
 ####################################################################
 # opam
@@ -28,6 +28,12 @@ WASI=12.0
 [ -f wasi-sdk-$WASI-linux.tar.gz ] || wget https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-12/wasi-sdk-$WASI-linux.tar.gz
 [ -d wasi-sdk-$WASI ] || tar -xzf wasi-sdk-$WASI-linux.tar.gz
 export WASI_SDK_PATH=$PWD/wasi-sdk-$WASI
+
+echo "### To debug:"
+echo "export OPAMROOT=$OPAMROOT"
+echo "export PATH=$PATH"
+echo "export WASI_SDK_PATH=$WASI_SDK_PATH"
+echo 'eval $(opam env --switch=wacoq --set-switch)'
 
 ##################################################################
 # Coq
