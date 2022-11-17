@@ -13,6 +13,6 @@ distclean: clean
 	
 clean:
 	rm -rf jscoq wacoq-bin */node_modules
-	rm -rf addons/_build addons/*/workdir addons/*/coq-pkgs addons/package.json addons/package-lock.json
+	rm -rf addons/*/workdir addons/*/coq-pkgs addons/*/wacoq-*.tgz addons/*/package.json addons/package.json addons/package-lock.json
 	rm -rf deploy/package.json deploy/package-lock.json
 
