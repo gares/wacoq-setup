@@ -52,21 +52,19 @@ $CLEAN || (cd addons ; rm -rf node_modules)
 (cd addons; npm install jquery jszip ../wacoq-bin/wacoq-bin-0.15.1.tar.gz)
 
 [ -f addons/elpi/wacoq-elpi-*.tgz ] || CLEAN=false
-$CLEAN || (cd addons && make elpi)
+$CLEAN || (cd addons/elpi && make && make install)
 
 [ -f addons/hierarchy-builder/wacoq-hierarchy-builder-*.tgz ] || CLEAN=false
-$CLEAN || (cd addons && make hierarchy-builder)
+$CLEAN || (cd addons/hierarchy-builder && make && make install)
 
 [ -f addons/mathcomp/wacoq-mathcomp-*.tgz ] || CLEAN=false
-$CLEAN || (cd addons && make mathcomp)
+$CLEAN || (cd addons/mathcomp && make && make install)
 
 [ -f addons/mczify/wacoq-mczify-*.tgz ] || CLEAN=false
-$CLEAN || (cd addons && make mczify)
+$CLEAN || (cd addons/mczify && make && make install)
 
 [ -f addons/algebra-tactics/wacoq-algebra-tactics-*.tgz ] || CLEAN=false
-$CLEAN || (cd addons && make algebra-tactics)
-
-# $CLEAN || (cd addons && make pack)
+$CLEAN || (cd addons/algebra-tactics && make && make install)
 
 # Wacoq frontend
 [ -d jscoq ] || CLEAN=false
