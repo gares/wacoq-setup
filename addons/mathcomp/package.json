@@ -1,11 +1,6 @@
 {
-    "name": "@jscoq/mathcomp",
-    "description": "Mathematical Components 1.14.0 for jsCoq",
-    "version": "0.16.0",
-    "files": ["README.md", "coq-pkgs"],
-    "repository": {
-        "type": "git",
-        "url": "github:jscoq/addon-mathcomp"
-    },
-    "license": "AGPL-3.0-or-later"
+"name": "@wacoq/mathcomp",
+"description": "coq-mathcomp-{ssreflect,fingroup,algebra,solvable,field}",
+"version": "hierarchy-builder",
+"files": ["coq-pkgs"]
 }

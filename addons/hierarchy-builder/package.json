@@ -1,11 +1,6 @@
 {
-    "name": "@jscoq/hierarchy-builder",
-    "description": "coq-hierarchy-builder 1.4.0 for jsCoq",
-    "version": "1.4.0",
-    "files": ["coq-pkgs"],
-    "repository": {
-        "type": "git",
-        "url": "github:jscoq/hierarchy-builder"
-    },
-    "license": "AGPL-3.0-or-later"
+"name": "@wacoq/hierarchy-builder",
+"description": "coq-hierarchy-builder",
+"version": "v1.4.0",
+"files": ["coq-pkgs"]
 }

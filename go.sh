@@ -51,26 +51,26 @@ $CLEAN || (cd wacoq-bin && make install)
 $CLEAN || (cd addons ; rm -rf node_modules)
 (cd addons; npm install jquery jszip ../wacoq-bin/wacoq-bin-0.15.1.tar.gz)
 
-[ -f addons/_build/wacoq/wacoq-elpi-0.15.0.tgz ] || CLEAN=false
+[ -f addons/elpi/wacoq-elpi-*.tgz ] || CLEAN=false
 $CLEAN || (cd addons && make elpi)
 
-[ -f addons/_build/wacoq/wacoq-hierarchy-builder-0.15.0.tgz ] || CLEAN=false
+[ -f addons/hierarchy-builder/wacoq-hierarchy-builder-*.tgz ] || CLEAN=false
 $CLEAN || (cd addons && make hierarchy-builder)
 
-[ -f addons/_build/wacoq/wacoq-mathcomp-0.15.0.tgz ] || CLEAN=false
+[ -f addons/mathcomp/wacoq-mathcomp-*.tgz ] || CLEAN=false
 $CLEAN || (cd addons && make mathcomp)
 
-[ -f addons/_build/wacoq/wacoq-mczify-0.15.0.tgz ] || CLEAN=false
+[ -f addons/mczify/wacoq-mczify-*.tgz ] || CLEAN=false
 $CLEAN || (cd addons && make mczify)
 
-[ -f addons/_build/wacoq/wacoq-algebra-tactics-0.15.0.tgz ] || CLEAN=false
+[ -f addons/algebra-tactics/wacoq-algebra-tactics-*.tgz ] || CLEAN=false
 $CLEAN || (cd addons && make algebra-tactics)
 
-$CLEAN || (cd addons && make pack)
+# $CLEAN || (cd addons && make pack)
 
 # Wacoq frontend
 [ -d jscoq ] || CLEAN=false
-$CLEAN || (rm -rf jscoq; git clone git@github.com:gares/jscoq.git --recursive -b v8.15 && cd jscoq && npm install ../wacoq-bin/wacoq-bin-0.15.1.tar.gz ../addons/_build/wacoq/*tgz)
+$CLEAN || (rm -rf jscoq; git clone git@github.com:gares/jscoq.git --recursive -b v8.15 && cd jscoq && npm install ../wacoq-bin/wacoq-bin-0.15.1.tar.gz ../addons/*/wacoq-*.tgz)
 
 [ -f jscoq/wacoq-0.15.1.tgz ] || CLEAN=false
 $CLEAN || (cd jscoq && make wacoq && make dist-npm-wacoq)
@@ -80,11 +80,7 @@ cd deploy
 rm -rf node_modules
 npm install ../wacoq-bin/wacoq-bin-0.15.1.tar.gz
 npm install ../jscoq/wacoq-0.15.1.tgz
-npm install ../addons/_build/wacoq/wacoq-elpi-0.15.0.tgz
-npm install ../addons/_build/wacoq/wacoq-hierarchy-builder-0.15.0.tgz
-npm install ../addons/_build/wacoq/wacoq-mathcomp-0.15.0.tgz
-npm install ../addons/_build/wacoq/wacoq-mczify-0.15.0.tgz
-npm install ../addons/_build/wacoq/wacoq-algebra-tactics-0.15.0.tgz
+npm install ../addons/*/wacoq-*.tgz
 
 rm -f ../deploy.tgz ; tar -czf ../deploy.tgz .
 

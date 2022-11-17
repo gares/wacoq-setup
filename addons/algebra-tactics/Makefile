@@ -1,13 +1,25 @@
 REPO = https://github.com/proux01/algebra-tactics.git
 TAG = hierarchy-builder
 WORKDIR = workdir
+define PKG
+{
+"name": "@wacoq/algebra-tactics",
+"description": "coq-mathcomp-algebra-tactics",
+"version": "$(TAG)",
+"files": ["coq-pkgs"]
+}
+endef
+export PKG
 
 .PHONY: all get prepare
 
 all: $(WORKDIR) prepare
 	make -C $(WORKDIR)
-	rm -rf ../_build/$(CONTEXT)/algebra-tactics/ && cp -r . ../_build/$(CONTEXT)/algebra-tactics/
-	(cd ../_build/$(CONTEXT)/algebra-tactics; npx jscoq build --workspace algebra-tactics.json)
+	npx wacoq build --workspace algebra-tactics.json
+	echo "$$PKG" > package.json
+	npm pack ./	
+	# rm -rf ../_build/$(CONTEXT)/algebra-tactics/ && cp -r . ../_build/$(CONTEXT)/algebra-tactics/
+	# (cd ../_build/$(CONTEXT)/algebra-tactics; npx jscoq build --workspace algebra-tactics.json)
 
 prepare: $(WORKDIR)
 

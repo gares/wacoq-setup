@@ -2,6 +2,15 @@ REPO = https://github.com/LPCIC/coq-elpi.git
 TAG = v1.14.0
 WORKDIR = workdir
 GIT_CLONE = git clone --recursive --depth=1 -b $(TAG) $(REPO) $(WORKDIR)
+define PKG
+{
+"name": "@wacoq/elpi",
+"description": "coq-elpi",
+"version": "$(TAG)",
+"files": ["coq-pkgs"]
+}
+endef
+export PKG
 
 .PHONY: all get prepare
 
@@ -10,10 +19,13 @@ all: $(WORKDIR) prepare
 	# must build plugin first
 	# dune build $(WORKDIR)/src && dune build
 	make -C $(WORKDIR) build APPS=
-	rm -rf ../_build/$(CONTEXT)/elpi/
-	mkdir -p ../_build/$(CONTEXT)/elpi/
-	cp -r . ../_build/$(CONTEXT)/elpi/
-	cd ../_build/$(CONTEXT)/elpi; npx wacoq build --workspace elpi.json
+	npx wacoq build --workspace elpi.json
+	echo "$$PKG" > package.json
+	npm pack ./
+	# rm -rf ../_build/$(CONTEXT)/elpi/
+	# mkdir -p ../_build/$(CONTEXT)/elpi/
+	# cp -r . ../_build/$(CONTEXT)/elpi/
+	# cd ../_build/$(CONTEXT)/elpi; npx wacoq build --workspace elpi.json
 
 
 prepare: $(WORKDIR)

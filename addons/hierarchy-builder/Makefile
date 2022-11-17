@@ -1,13 +1,25 @@
 REPO = https://github.com/math-comp/hierarchy-builder.git
 TAG = v1.4.0
 WORKDIR = workdir
+define PKG
+{
+"name": "@wacoq/hierarchy-builder",
+"description": "coq-hierarchy-builder",
+"version": "$(TAG)",
+"files": ["coq-pkgs"]
+}
+endef
+export PKG
 
 .PHONY: all get prepare
 
 all: $(WORKDIR) prepare
 	make -C $(WORKDIR) build
-	rm -rf ../_build/$(CONTEXT)/hierarchy-builder/ && cp -r . ../_build/$(CONTEXT)/hierarchy-builder/
-	(cd ../_build/$(CONTEXT)/hierarchy-builder; npx wacoq build --workspace hierarchy-builder.json)
+	npx wacoq build --workspace hierarchy-builder.json
+	echo "$$PKG" > package.json
+	npm pack ./
+	# rm -rf ../_build/$(CONTEXT)/hierarchy-builder/ && cp -r . ../_build/$(CONTEXT)/hierarchy-builder/
+	# (cd ../_build/$(CONTEXT)/hierarchy-builder; npx wacoq build --workspace hierarchy-builder.json)
 
 prepare: $(WORKDIR)
 

@@ -72,9 +72,10 @@ set-ver:
 	  $(OPAM_ENV) && dune build _build/$(CONTEXT)/*/package.json ; fi  # update build directory as well
 
 pack:
-	rm -rf _build/$(CONTEXT)/*.tgz
-	_scripts/set-ver ${addprefix @,$(CONTEXT)} $(_V) _build/$(CONTEXT)
-	cd _build/$(CONTEXT) && npm pack ${addprefix ./, $(BUILT_PKGS)}
+	npm pack ${addprefix ./, $(PKGS)}
+	# rm -rf _build/$(CONTEXT)/*.tgz
+	# _scripts/set-ver ${addprefix @,$(CONTEXT)} $(_V) _build/$(CONTEXT)
+	# cd _build/$(CONTEXT) && npm pack ${addprefix ./, $(BUILT_PKGS)}
 
 commit-all:
 	for d in $(PKGS); do ( cd $$d && git commit $(COMMIT_FLAGS) -m "$(MSG)" ); done

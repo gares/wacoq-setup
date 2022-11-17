@@ -2,6 +2,15 @@
 REPO = https://github.com/math-comp/math-comp.git
 TAG = hierarchy-builder
 WORKDIR = workdir
+define PKG
+{
+"name": "@wacoq/mathcomp",
+"description": "coq-mathcomp-{ssreflect,fingroup,algebra,solvable,field}",
+"version": "$(TAG)",
+"files": ["coq-pkgs"]
+}
+endef
+export PKG
 
 SUBPKGS = ssreflect fingroup character field solvable algebra all
 
@@ -19,8 +28,12 @@ all: $(WORKDIR)
 	# cp -r dune-files/* $(WORKDIR)/
 	# dune build
 	make -C $(WORKDIR)/mathcomp -j4
-	rm -rf ../_build/$(CONTEXT)/mathcomp/ && cp -r . ../_build/$(CONTEXT)/mathcomp/
-	(cd ../_build/$(CONTEXT)/mathcomp; npx wacoq build --workspace jscoq-mathcomp.json)
+	npx wacoq build --workspace jscoq-mathcomp.json
+	echo "$$PKG" > package.json
+	npm pack ./
+
+	# rm -rf ../_build/$(CONTEXT)/mathcomp/ && cp -r . ../_build/$(CONTEXT)/mathcomp/
+	# (cd ../_build/$(CONTEXT)/mathcomp; npx wacoq build --workspace jscoq-mathcomp.json)
 
 get: $(WORKDIR)
 
