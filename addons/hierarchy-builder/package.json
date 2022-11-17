@@ -1,6 +1,0 @@
-{
-"name": "@wacoq/hierarchy-builder",
-"description": "coq-hierarchy-builder",
-"version": "v1.4.0",
-"files": ["coq-pkgs"]
-}

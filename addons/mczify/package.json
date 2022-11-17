@@ -1,6 +1,0 @@
-{
-"name": "@wacoq/mczify",
-"description": "coq-mathcomp-zify",
-"version": "hierarchy-builder",
-"files": ["coq-pkgs"]
-}

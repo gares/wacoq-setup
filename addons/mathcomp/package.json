@@ -1,6 +1,0 @@
-{
-"name": "@wacoq/mathcomp",
-"description": "coq-mathcomp-{ssreflect,fingroup,algebra,solvable,field}",
-"version": "hierarchy-builder",
-"files": ["coq-pkgs"]
-}

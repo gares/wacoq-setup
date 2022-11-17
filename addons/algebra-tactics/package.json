@@ -1,6 +1,0 @@
-{
-"name": "@wacoq/algebra-tactics",
-"description": "coq-mathcomp-algebra-tactics",
-"version": "hierarchy-builder",
-"files": ["coq-pkgs"]
-}
