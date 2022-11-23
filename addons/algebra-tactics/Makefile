@@ -5,7 +5,7 @@ define PKG
 {
 "name": "@wacoq/algebra-tactics",
 "description": "coq-mathcomp-algebra-tactics",
-"version": "$(TAG)",
+"version": "v0.0.0",
 "files": ["coq-pkgs"]
 }
 endef

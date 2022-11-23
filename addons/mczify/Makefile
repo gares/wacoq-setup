@@ -5,7 +5,7 @@ define PKG
 {
 "name": "@wacoq/mczify",
 "description": "coq-mathcomp-zify",
-"version": "$(TAG)",
+"version": "v0.0.0",
 "files": ["coq-pkgs"]
 }
 endef
