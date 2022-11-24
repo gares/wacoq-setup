@@ -10,7 +10,7 @@ shift
 #
 # ocaml-wasm wants 4.12
 export OPAMROOT=$PWD/opam
-[ -d opam ] || (opam init --bare -y && opam switch create wacoq --packages ocaml-variants.4.12.0+options,ocaml-option-32bit -y)
+[ -d opam ] || (opam init --bare -y && opam switch create wacoq --packages ocaml-variants.4.12.0+options,ocaml-option-32bit,dune.3.5.0 -y)
 eval $(opam env --switch=wacoq --set-switch)
 
 ###################################################################
@@ -48,9 +48,12 @@ CLEAN=true
 # hack, the URL of the website is hardcoded in wacoq-bin/src/backend/core.ts,
 # replace it with file:/// to test locally (and rebuild)
 [ -d wacoq-bin ] || CLEAN=false
-$CLEAN || (rm -rf wacoq-bin ; git clone git@github.com:gares/wacoq-bin.git -b v8.15 --recursive && cd wacoq-bin && npm install && make bootstrap && make coq)
+# $CLEAN || (rm -rf wacoq-bin ; git clone git@github.com:gares/wacoq-bin.git -b v8.15 --recursive && cd wacoq-bin && npm install && make bootstrap && make coq)
+$CLEAN || (rm -rf wacoq-bin ; git clone git@github.com:gares/wacoq-bin.git -b v8.16 --recursive && cd wacoq-bin && npm install && make bootstrap && make coq)
 
-[ -f wacoq-bin/wacoq-bin-0.15.1.tar.gz ] || CLEAN=false
+#WACOQ=wacoq-bin-0.15.1
+WACOQ=wacoq-bin-0.16.0
+[ -f wacoq-bin/$WACOQ.tar.gz ] || CLEAN=false
 $CLEAN || (cd wacoq-bin && make wacoq && make dist-npm)
 
 [ -f $OPAMROOT/wacoq/bin/coqc ] || CLEAN=false
@@ -58,7 +61,7 @@ $CLEAN || (cd wacoq-bin && make install)
 
 # Wacoq libs / addons, also installed in opam/
 $CLEAN || (cd addons ; rm -rf node_modules)
-(cd addons; npm install jquery jszip ../wacoq-bin/wacoq-bin-0.15.1.tar.gz)
+(cd addons; npm install jquery jszip ../wacoq-bin/$WACOQ.tar.gz)
 
 [ -f addons/elpi/wacoq-elpi-*.tgz ] || CLEAN=false
 $CLEAN || (cd addons/elpi && make && make install)
@@ -76,17 +79,19 @@ $CLEAN || (cd addons/mczify && make && make install)
 $CLEAN || (cd addons/algebra-tactics && make && make install)
 
 # Wacoq frontend
+JSCOQ=wacoq-0.16.0
 [ -d jscoq ] || CLEAN=false
-$CLEAN || (rm -rf jscoq; git clone git@github.com:gares/jscoq.git --recursive -b v8.15 && cd jscoq && npm install ../wacoq-bin/wacoq-bin-0.15.1.tar.gz ../addons/*/wacoq-*.tgz)
+# $CLEAN || (rm -rf jscoq; git clone git@github.com:gares/jscoq.git --recursive -b v8.15 && cd jscoq && npm install ../wacoq-bin/$WACOQ.tar.gz ../addons/*/wacoq-*.tgz)
+$CLEAN || (rm -rf jscoq; git clone git@github.com:gares/jscoq.git --recursive -b v8.16 && cd jscoq && npm install ../wacoq-bin/$WACOQ.tar.gz ../addons/*/wacoq-*.tgz && opam install dune.3.5.0 && opam install --deps-only ./jscoq.opam)
 
-[ -f jscoq/wacoq-0.15.1.tgz ] || CLEAN=false
+[ -f jscoq/$JSCOQ.tgz ] || CLEAN=false
 $CLEAN || (cd jscoq && make wacoq && make dist-npm-wacoq)
 
 # Archive to be deployed
 cd deploy
 rm -rf node_modules
-npm install ../wacoq-bin/wacoq-bin-0.15.1.tar.gz
-npm install ../jscoq/wacoq-0.15.1.tgz
+npm install ../wacoq-bin/$WACOQ.tar.gz
+npm install ../jscoq/$JSCOQ.tgz
 npm install ../addons/*/wacoq-*.tgz
 
 rm -f ../deploy-$V.tgz ; tar -czf ../deploy-$V.tgz .

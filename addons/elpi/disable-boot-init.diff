@@ -1,16 +1,17 @@
 diff --git a/src/coq_elpi_vernacular.ml b/src/coq_elpi_vernacular.ml
-index ca65350..f136c0a 100644
+index 6c7c8ab..f830d72 100644
 --- a/src/coq_elpi_vernacular.ml
 +++ b/src/coq_elpi_vernacular.ml
-@@ -223,8 +223,7 @@ let file_resolver =
+@@ -223,11 +223,7 @@ let file_resolver =
        let build_dir = Coq_elpi_config.elpi_dir in
        let installed_dirs =
          let valid_dir d = try Sys.is_directory d with Sys_error _ -> false in
--        let env = Boot.Env.init () in
--        let user_contrib = Boot.Env.(user_contrib env |> Path.to_string) in
-+        let user_contrib =  "../.." in
+-        let user_contrib =
+-          if Sys.backend_type = Sys.Other "js_of_ocaml" then "../.."
+-          else
+-            let env = Boot.Env.init () in
+-            Boot.Env.(user_contrib env |> Path.to_string) in
++        let user_contrib = "../.." in
          user_contrib :: Envars.coqpath
          |> List.map (fun p -> p ^ "/elpi/")
          |> ((@) [".";".."]) (* Hem, this sucks *)
-diff --git a/theories/elpi.v b/theories/elpi.v
-index cf6f7da..387d375 100644

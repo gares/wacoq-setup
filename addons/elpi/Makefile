@@ -1,5 +1,5 @@
 REPO = https://github.com/LPCIC/coq-elpi.git
-TAG = v1.14.0
+TAG = v1.16.0
 WORKDIR = workdir
 GIT_CLONE = git clone --recursive --depth=1 -b $(TAG) $(REPO) $(WORKDIR)
 define PKG
@@ -24,8 +24,9 @@ all: $(WORKDIR) prepare
 prepare: $(WORKDIR)
 	@echo '- Installing dependencies -'
 	sed -i.bak '/"coq"/d' workdir/coq-elpi.opam  # don't install Coq
+	sed -i.bak 's/coq-elpi.plugin/elpi_plugin:coq-elpi.plugin/' workdir/theories/elpi.v  # legacy loading
 	unset DUNE_WORKSPACE && opam install -y --deps-only $(WORKDIR)/
-	echo 'CAMLPKGS+=-dontlink result,ppx_deriving.runtime' >> $(WORKDIR)/Makefile.coq.local
+	echo 'CAMLPKGS+=-dontlink result,ppx_deriving.runtime -linkall' >> $(WORKDIR)/Makefile.coq.local
 
 get: $(WORKDIR)
 
