@@ -3,7 +3,7 @@ TAG = hierarchy-builder
 WORKDIR = workdir
 define PKG
 {
-"name": "@wacoq/mczify",
+"name": "@jscoq/mczify",
 "description": "coq-mathcomp-zify",
 "version": "v0.0.0",
 "files": ["coq-pkgs"]
@@ -15,7 +15,7 @@ export PKG
 
 all: $(WORKDIR) prepare
 	make -C $(WORKDIR) VERBOSE=1
-	npx wacoq build --workspace mczify.json
+	npx jscoq build --workspace mczify.json
 	echo "$$PKG" > package.json
 	npm pack ./
 	

@@ -3,7 +3,7 @@ TAG = v1.4.0
 WORKDIR = workdir
 define PKG
 {
-"name": "@wacoq/hierarchy-builder",
+"name": "@jscoq/hierarchy-builder",
 "description": "coq-hierarchy-builder",
 "version": "$(TAG)",
 "files": ["coq-pkgs"]
@@ -15,7 +15,7 @@ export PKG
 
 all: $(WORKDIR) prepare
 	make -C $(WORKDIR) build
-	npx wacoq build --workspace hierarchy-builder.json
+	npx jscoq build --workspace hierarchy-builder.json
 	echo "$$PKG" > package.json
 	npm pack ./
 

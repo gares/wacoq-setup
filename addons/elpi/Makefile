@@ -4,7 +4,7 @@ WORKDIR = workdir
 GIT_CLONE = git clone --recursive --depth=1 -b $(TAG) $(REPO) $(WORKDIR)
 define PKG
 {
-"name": "@wacoq/elpi",
+"name": "@jscoq/elpi",
 "description": "coq-elpi",
 "version": "$(TAG)",
 "files": ["coq-pkgs"]
@@ -16,7 +16,7 @@ export PKG
 
 all: $(WORKDIR) prepare 
 	make -C $(WORKDIR) build APPS=
-	npx wacoq build --workspace elpi.json
+	npx jscoq build --workspace elpi.json
 	echo "$$PKG" > package.json
 	npm pack ./
 

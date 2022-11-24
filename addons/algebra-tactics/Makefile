@@ -3,7 +3,7 @@ TAG = hierarchy-builder
 WORKDIR = workdir
 define PKG
 {
-"name": "@wacoq/algebra-tactics",
+"name": "@jscoq/algebra-tactics",
 "description": "coq-mathcomp-algebra-tactics",
 "version": "v0.0.0",
 "files": ["coq-pkgs"]
@@ -15,7 +15,7 @@ export PKG
 
 all: $(WORKDIR) prepare
 	make -C $(WORKDIR)
-	npx wacoq build --workspace algebra-tactics.json
+	npx jscoq build --workspace algebra-tactics.json
 	echo "$$PKG" > package.json
 	npm pack ./	
 

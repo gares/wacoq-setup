@@ -4,7 +4,7 @@ TAG = hierarchy-builder
 WORKDIR = workdir
 define PKG
 {
-"name": "@wacoq/mathcomp",
+"name": "@jscoq/mathcomp",
 "description": "coq-mathcomp-{ssreflect,fingroup,algebra,solvable,field}",
 "version": "$(TAG)",
 "files": ["coq-pkgs"]
@@ -26,7 +26,7 @@ GIT_CLONE = ${if $(COMMIT), $(GIT_CLONE_COMMIT), git clone --recursive --depth=1
 
 all: $(WORKDIR)
 	make -C $(WORKDIR)/mathcomp -j4
-	npx wacoq build --workspace jscoq-mathcomp.json
+	npx jscoq build --workspace jscoq-mathcomp.json
 	echo "$$PKG" > package.json
 	npm pack ./
 
