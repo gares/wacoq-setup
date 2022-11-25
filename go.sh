@@ -62,7 +62,7 @@ $CLEAN || (cd addons ; rm -rf node_modules)
 (cd addons; npm install jquery jszip ../jscoq/$JSCOQ.tgz)
 
 [ -f addons/elpi/jscoq-elpi-*.tgz ] || CLEAN=false
-$CLEAN || (cd addons/elpi && make && make install)
+$CLEAN || (cd addons/elpi && make VERBOSE=1 && make install)
 
 [ -f addons/hierarchy-builder/jscoq-hierarchy-builder-*.tgz ] || CLEAN=false
 $CLEAN || (cd addons/hierarchy-builder && make && make install)
