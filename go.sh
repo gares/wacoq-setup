@@ -12,9 +12,8 @@ shift
 export OPAMROOT=$PWD/opam
 SWITCH=jscoq+64bit
 export WORD_SIZE=64
-[ -d opam ] || (opam init --bare -y && opam switch create $SWITCH --packages ocaml-variants.4.12.0+options,dune.3.5.0,js_of_ocaml.4.0.0,ocamlfind,sexplib0.v0.14.0 -y)
+[ -d opam ] || (opam init --bare -y && opam switch create $SWITCH --packages ocaml-variants.4.12.0+options,dune.3.5.0,js_of_ocaml.4.0.0,ocamlfind,sexplib0.v0.14.0,elpi.1.16.8 -y)
 eval $(opam env --switch=$SWITCH --set-switch)
-opam pin add elpi.1.16.8 file:///home/gares/LPCIC/elpi/ -y
 
 ###################################################################
 # node
@@ -39,7 +38,8 @@ echo "### To debug:"
 echo "export OPAMROOT=$OPAMROOT"
 echo "export PATH=$PATH"
 echo "export WASI_SDK_PATH=$WASI_SDK_PATH"
-echo "eval $(opam env --switch=$SWITCH --set-switch)"
+echo "export WORD_SIZE=64"
+echo "eval \$(opam env --switch=$SWITCH --set-switch)"
 
 ##################################################################
 # Coq
@@ -78,13 +78,30 @@ $CLEAN || (cd addons/algebra-tactics && make && make install)
 
 
 # Archive to be deployed
-./deps.js
+
+cd $OPAM_SWITCH_PREFIX/lib
+(for p in `ocamlfind query elpi -r -format '%+m %+a' -predicates byte`; do echo ${p##$OPAM_SWITCH_PREFIX/lib/}; done) | xargs zip ../../../lib.zip
+echo coq-elpi/META coq-elpi/elpi_plugin.cma | xargs zip ../../../lib.zip
+echo coq-core/META coq-core/plugins/*/*.cma | xargs zip ../../../lib.zip
+echo findlib/META findlib/*.cma | xargs zip ../../../lib.zip
+echo zarith/META zarith/*.cma | xargs zip ../../../lib.zip
+sed -i.bak '/directory/d' threads/META str/META dynlink/META
+cp ocaml/threads/threads.cma threads
+cp ocaml/dynlink.cma dynlink
+cp ocaml/str.cma str
+echo seq/META | xargs zip ../../../lib.zip
+echo threads/META threads/*.cma | xargs zip ../../../lib.zip
+echo str/META str/*.cma | xargs zip ../../../lib.zip
+echo dynlink/META dynlink/*.cma | xargs zip ../../../lib.zip
+cd -
+
 cd deploy
 rm -rf node_modules
 #npm install ../jscoq-bin/$WACOQ.tar.gz
-set -x
 npm install ../jscoq/$JSCOQ.tgz
 for addon in ../addons/*/jscoq-*.tgz; do npm install $addon; done
+mkdir node_modules/scratch/ -p
+cp ../lib.zip node_modules/scratch/
 
 rm -f ../deploy-$V.tgz ; tar -czf ../deploy-$V.tgz .
 
