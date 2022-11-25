@@ -6,7 +6,7 @@ define PKG
 {
 "name": "@jscoq/mathcomp",
 "description": "coq-mathcomp-{ssreflect,fingroup,algebra,solvable,field}",
-"version": "$(TAG)",
+"version": "2.0.0",
 "files": ["coq-pkgs"]
 }
 endef

@@ -12,8 +12,9 @@ shift
 export OPAMROOT=$PWD/opam
 SWITCH=jscoq+64bit
 export WORD_SIZE=64
-[ -d opam ] || (opam init --bare -y && opam switch create $SWITCH --packages ocaml-variants.4.12.0+options,dune.3.5.0,js_of_ocaml.4.0.0,yojson.1.7.0 -y)
+[ -d opam ] || (opam init --bare -y && opam switch create $SWITCH --packages ocaml-variants.4.12.0+options,dune.3.5.0,js_of_ocaml.4.0.0,ocamlfind,sexplib0.v0.14.0 -y)
 eval $(opam env --switch=$SWITCH --set-switch)
+opam pin add elpi.1.16.8 file:///home/gares/LPCIC/elpi/
 
 ###################################################################
 # node
@@ -63,9 +64,9 @@ CLEAN=true
 JSCOQ=_build/dist/jscoq-0.16.1
 [ -d jscoq ] || CLEAN=false
 # $CLEAN || (rm -rf jscoq; git clone git@github.com:gares/jscoq.git --recursive -b v8.15 && cd jscoq && npm install ../jscoq-bin/$WACOQ.tar.gz ../addons/*/jscoq-*.tgz)
-$CLEAN || (rm -rf jscoq; git clone git@github.com:gares/jscoq.git --recursive -b v8.16 && cd jscoq && npm install && opam install --deps-only ./jscoq.opam)
+$CLEAN || (rm -rf jscoq; git clone git@github.com:gares/jscoq.git --recursive -b v8.16 && cd jscoq && npm install && opam install --deps-only ./jscoq.opam -y)
 [ -f jscoq/$JSCOQ.tgz ] || CLEAN=false
-$CLEAN || (cd jscoq && make coq && make jscoq && make dist-npm && dist-npm-wacoq)
+$CLEAN || (cd jscoq && make coq && make wacoq && make dist-npm)
 
 [ -f $OPAMROOT/$SWITCH/bin/coqc ] || CLEAN=false
 $CLEAN || (cd jscoq && make install)
@@ -93,8 +94,9 @@ $CLEAN || (cd addons/algebra-tactics && make && make install)
 cd deploy
 rm -rf node_modules
 #npm install ../jscoq-bin/$WACOQ.tar.gz
+set -x
 npm install ../jscoq/$JSCOQ.tgz
-npm install ../addons/*/jscoq-*.tgz
+for addon in ../addons/*/jscoq-*.tgz; do npm install $addon; done
 
 rm -f ../deploy-$V.tgz ; tar -czf ../deploy-$V.tgz .
 
