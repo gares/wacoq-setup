@@ -14,7 +14,7 @@ SWITCH=jscoq+64bit
 export WORD_SIZE=64
 [ -d opam ] || (opam init --bare -y && opam switch create $SWITCH --packages ocaml-variants.4.12.0+options,dune.3.5.0,js_of_ocaml.4.0.0,ocamlfind,sexplib0.v0.14.0 -y)
 eval $(opam env --switch=$SWITCH --set-switch)
-opam pin add elpi.1.16.8 file:///home/gares/LPCIC/elpi/
+opam pin add elpi.1.16.8 file:///home/gares/LPCIC/elpi/ -y
 
 ###################################################################
 # node
@@ -45,20 +45,6 @@ echo "eval $(opam env --switch=$SWITCH --set-switch)"
 # Coq
 
 CLEAN=true
-
-# # Wacoq backend, also installs coq in opam/
-# #
-# # hack, the URL of the website is hardcoded in jscoq-bin/src/backend/core.ts,
-# # replace it with file:/// to test locally (and rebuild)
-# [ -d jscoq-bin ] || CLEAN=false
-# # $CLEAN || (rm -rf jscoq-bin ; git clone git@github.com:gares/jscoq-bin.git -b v8.15 --recursive && cd jscoq-bin && npm install && make bootstrap && make coq)
-# $CLEAN || (rm -rf jscoq-bin ; git clone git@github.com:gares/jscoq-bin.git -b v8.16 --recursive && cd jscoq-bin && npm install && make bootstrap && make coq)
-# 
-# #WACOQ=jscoq-bin-0.15.1
-# WACOQ=jscoq-bin-0.16.0
-# [ -f jscoq-bin/$WACOQ.tar.gz ] || CLEAN=false
-# $CLEAN || (cd jscoq-bin && make wacoq && make dist-npm)
-
 
 # Wacoq frontend
 JSCOQ=_build/dist/jscoq-0.16.1
