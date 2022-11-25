@@ -12,7 +12,7 @@ distclean: clean
 	rm -rf opam node-* wasi-*
 	
 clean:
-	rm -rf jscoq wacoq-bin */node_modules
+	rm -rf jscoq wacoq-bin */node_modules lib.zip
 	rm -rf addons/*/workdir addons/*/coq-pkgs addons/*/wacoq-*.tgz addons/*/package.json addons/package.json addons/package-lock.json
 	rm -rf deploy/package.json deploy/package-lock.json
 
