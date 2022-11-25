@@ -7,6 +7,7 @@ upload:
 	echo 'cd /net/serveurs/www-sop/teams/marelle/MC-2022/;rm -rf *' | ssh roquableu.inria.fr
 	scp deploy-$(V).tgz roquableu.inria.fr:/net/serveurs/www-sop/teams/marelle/MC-2022/
 	echo 'cd /net/serveurs/www-sop/teams/marelle/MC-2022/;tar -xzf deploy-$(V).tgz' | ssh roquableu.inria.fr
+	echo 'cd /net/serveurs/www-sop/teams/marelle/MC-2022/;chmod g+w --recursive . *' | ssh roquableu.inria.fr
 
 distclean: clean
 	rm -rf opam node-* wasi-*
