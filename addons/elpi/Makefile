@@ -24,9 +24,9 @@ all: $(WORKDIR) prepare
 prepare: $(WORKDIR)
 	@echo '- Installing dependencies -'
 	sed -i.bak '/"coq"/d' workdir/coq-elpi.opam  # don't install Coq
-	sed -i.bak 's/coq-elpi.elpi/elpi_plugin:coq-elpi.elpi/' workdir/theories/elpi.v  # legacy loading
+	# sed -i.bak 's/coq-elpi.elpi/elpi_plugin:coq-elpi.elpi/' workdir/theories/elpi.v  # legacy loading
 	unset DUNE_WORKSPACE && opam install -y --deps-only $(WORKDIR)/
-	echo 'CAMLPKGS+=-dontlink result,ppx_deriving.runtime,coq-core.plugins.ltac,stdlib-shims -linkpkg' >> $(WORKDIR)/Makefile.coq.local
+	# echo 'CAMLPKGS+=-dontlink result,ppx_deriving.runtime' >> $(WORKDIR)/Makefile.coq.local
 
 get: $(WORKDIR)
 

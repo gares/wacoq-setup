@@ -76,7 +76,9 @@ $CLEAN || (cd addons/mczify && make && make install)
 [ -f addons/algebra-tactics/jscoq-algebra-tactics-*.tgz ] || CLEAN=false
 $CLEAN || (cd addons/algebra-tactics && make && make install)
 
+
 # Archive to be deployed
+./deps.js
 cd deploy
 rm -rf node_modules
 #npm install ../jscoq-bin/$WACOQ.tar.gz
