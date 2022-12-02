@@ -1,5 +1,3 @@
-REPO = https://github.com/proux01/algebra-tactics.git
-TAG = hierarchy-builder
 WORKDIR = workdir
 define PKG
 {
@@ -18,13 +16,6 @@ all: $(WORKDIR) prepare
 	npx jscoq build --workspace algebra-tactics.json
 	echo "$$PKG" > package.json
 	npm pack ./	
-
-prepare: $(WORKDIR)
-
-get: $(WORKDIR)
-
-$(WORKDIR):
-	git clone --depth=1 -b $(TAG) $(REPO) $(WORKDIR)
 
 clean:
 	make -C $(WORKDIR) clean

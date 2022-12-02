@@ -14,6 +14,7 @@ SWITCH=jscoq+64bit
 export WORD_SIZE=64
 [ -d opam ] || (opam init --bare -y && opam switch create $SWITCH --packages ocaml-variants.4.12.0+options,dune.3.5.0,js_of_ocaml.4.0.0,ocamlfind,sexplib0.v0.14.0,elpi.1.16.8 -y)
 eval $(opam env --switch=$SWITCH --set-switch)
+opam repo add file://$PWD/opam-overlay
 
 ###################################################################
 # node
@@ -62,19 +63,19 @@ $CLEAN || (cd addons ; rm -rf node_modules)
 (cd addons; npm install jquery jszip ../jscoq/$JSCOQ.tgz)
 
 [ -f addons/elpi/jscoq-elpi-*.tgz ] || CLEAN=false
-$CLEAN || (cd addons/elpi && make VERBOSE=1 && make install)
+$CLEAN || (cd addons/elpi && opam source coq-elpi.1.16.0 --dir=workdir && make VERBOSE=1 && make install)
 
 [ -f addons/hierarchy-builder/jscoq-hierarchy-builder-*.tgz ] || CLEAN=false
-$CLEAN || (cd addons/hierarchy-builder && make && make install)
+$CLEAN || (cd addons/hierarchy-builder && opam source coq-hierarchy-builder.1.4.0 --dir=workdir && make && make install)
 
 [ -f addons/mathcomp/jscoq-mathcomp-*.tgz ] || CLEAN=false
-$CLEAN || (cd addons/mathcomp && make && make install)
+$CLEAN || (cd addons/mathcomp && opam source coq-mathcomp-ssreflect.2.0.0+alpha1 --dir=workdir && make && make install)
 
 [ -f addons/mczify/jscoq-mczify-*.tgz ] || CLEAN=false
-$CLEAN || (cd addons/mczify && make && make install)
+$CLEAN || (cd addons/mczify && opam source coq-mathcomp-zify.hierarchy-builder --dir=workdir && make && make install)
 
 [ -f addons/algebra-tactics/jscoq-algebra-tactics-*.tgz ] || CLEAN=false
-$CLEAN || (cd addons/algebra-tactics && make && make install)
+$CLEAN || ( cd addons/algebra-tactics && opam source coq-mathcomp-algebra-tactics.hierarchy-builder --dir=workdir && make && make install)
 
 
 # Archive to be deployed

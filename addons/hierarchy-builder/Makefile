@@ -1,4 +1,3 @@
-REPO = https://github.com/math-comp/hierarchy-builder.git
 TAG = v1.4.0
 WORKDIR = workdir
 define PKG
@@ -18,13 +17,6 @@ all: $(WORKDIR) prepare
 	npx jscoq build --workspace hierarchy-builder.json
 	echo "$$PKG" > package.json
 	npm pack ./
-
-prepare: $(WORKDIR)
-
-get: $(WORKDIR)
-
-$(WORKDIR):
-	git clone --depth=1 -b $(TAG) $(REPO) $(WORKDIR)
 
 clean:
 	make -C $(WORKDIR) clean

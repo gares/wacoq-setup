@@ -1,5 +1,3 @@
-REPO = https://github.com/proux01/mczify.git
-TAG = hierarchy-builder
 WORKDIR = workdir
 define PKG
 {
@@ -19,13 +17,6 @@ all: $(WORKDIR) prepare
 	echo "$$PKG" > package.json
 	npm pack ./
 	
-prepare: $(WORKDIR)
-
-get: $(WORKDIR)
-
-$(WORKDIR):
-	git clone --depth=1 -b $(TAG) $(REPO) $(WORKDIR)
-
 clean:
 	make -C $(WORKDIR) clean
 	rm -f $(WORKDIR)/Makefile.coq{,.conf}
