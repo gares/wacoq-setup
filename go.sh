@@ -79,35 +79,37 @@ $CLEAN || (cd addons/mczify && opam source coq-mathcomp-zify.hierarchy-builder -
 $CLEAN || ( cd addons/algebra-tactics && opam source coq-mathcomp-algebra-tactics.hierarchy-builder --dir=workdir && make && make install)
 
 
-# Archive to be deployed
+# Archive to be unpacked in the wacoq worker file system
 
 cd $OPAM_SWITCH_PREFIX/lib
-(for p in `ocamlfind query elpi -r -format '%+m %+a' -predicates byte`; do echo ${p##$OPAM_SWITCH_PREFIX/lib/}; done) | xargs zip ../../../lib.zip
-echo coq-elpi/META coq-elpi/elpi_plugin.cma | xargs zip ../../../lib.zip
-echo coq-core/META coq-core/plugins/*/*.cma | xargs zip ../../../lib.zip
-echo findlib/META findlib/*.cma | xargs zip ../../../lib.zip
-echo zarith/META zarith/*.cma | xargs zip ../../../lib.zip
-sed -i.bak '/directory/d' threads/META str/META dynlink/META
+for pkg in `ocamlfind list | grep ^coq- | cut -d ' ' -f 1`; do
+    for p in `ocamlfind query $pkg -r -format '%+m %+a' -predicates byte`; do
+        case ${p##$OPAM_SWITCH_PREFIX/lib/} in
+          coq-core/plugins/*|coq-core/META)
+            echo ${p##$OPAM_SWITCH_PREFIX/lib/};
+          ;;
+          coq-core/*)
+            :
+          ;;
+          *)
+            echo ${p##$OPAM_SWITCH_PREFIX/lib/};
+          ;;
+        esac;
+    done;
+done | xargs zip ../../../lib.zip
+sed -i.bak '/directory/d' threads/META
 cp ocaml/threads/threads.cma threads
-cp ocaml/dynlink.cma dynlink
-cp ocaml/str.cma str
 echo seq/META | xargs zip ../../../lib.zip
 echo threads/META threads/*.cma | xargs zip ../../../lib.zip
-echo str/META str/*.cma | xargs zip ../../../lib.zip
-echo dynlink/META dynlink/*.cma | xargs zip ../../../lib.zip
 cd -
+
+# To be deployed on the web server
 
 cd deploy
 rm -rf node_modules
-#npm install ../jscoq-bin/$WACOQ.tar.gz
 npm install ../jscoq/$JSCOQ.tgz
-for addon in ../addons/*/jscoq-*.tgz; do npm install $addon; done
+npm install ../addons/*/jscoq-*.tgz
 mkdir node_modules/scratch/ -p
 cp ../lib.zip node_modules/scratch/
 
 rm -f ../deploy-$V.tgz ; tar -czf ../deploy-$V.tgz .
-
-#python3 -m http.server
-
-
-# & google-chrome --allow-file-access-from-files --js-flags="--harmony-tailcalls" --js-flags="--stack-size=65536" ./index.html
